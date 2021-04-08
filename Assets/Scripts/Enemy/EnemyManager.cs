@@ -7,13 +7,28 @@ public class EnemyManager : MonoBehaviour
     private float CurrentTime = 0.0f;
     private float SpawnIntervalTime = 0.0f;
 
-    public float SpawnIntervalMinTime = 1.0f;
-    public float SpawnIntervalMaxTime = 5.0f;
+    public float SpawnIntervalMinTime = 0.5f;
+    public float SpawnIntervalMaxTime = 1.5f;
     public GameObject EnemyGameObject = null;
+
+    public int PoolSize = 10;
+    public List<GameObject> EnemyObjectPool;
+
+    public Transform[] SpawnPoints;
 
     // Start is called before the first frame update
     void Start()
     {
+        EnemyObjectPool = new List<GameObject>();
+
+        for( int i = 0; i < PoolSize; ++i)
+        {
+            var enemy = Instantiate(EnemyGameObject);
+            enemy.SetActive(false);
+
+            EnemyObjectPool.Add(enemy);
+        }
+
         SpawnIntervalTime = Random.Range(SpawnIntervalMinTime, SpawnIntervalMaxTime);
     }
 
@@ -31,18 +46,37 @@ public class EnemyManager : MonoBehaviour
     }
 
 
+    protected GameObject GetDeactivatedEnemy()
+    {
+        foreach( var enemy in EnemyObjectPool)
+        {
+            if(!enemy.activeSelf)
+            {
+                EnemyObjectPool.Remove(enemy);
+                return enemy;
+            }
+        }
+        return null;
+    }
+
     protected void SpawnEnemy()
     {
-        GameObject enemy = Instantiate(EnemyGameObject);
-        
-        if( enemy == null)
-        {
-            Debug.LogWarning("SpawnEnemy : Instantiate Fail");
-        }
+        GameObject enemy = GetDeactivatedEnemy();
 
         if( enemy != null)
         {
-            enemy.transform.position = transform.position;
+            enemy.SetActive(true);
+
+            if( SpawnPoints.Length > 0 )
+            {
+                int index = Random.Range(0, SpawnPoints.Length);
+
+                enemy.transform.position = SpawnPoints[index].transform.position;
+            }
+            else
+            {
+                enemy.transform.position = transform.position;
+            }
         }
     }
 

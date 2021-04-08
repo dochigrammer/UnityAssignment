@@ -43,6 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e13748cfdd7ab48b46e0f88e59c8af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnIntervalMinTime: 1
-  SpawnIntervalMaxTime: 5
+  SpawnIntervalMinTime: 0.5
+  SpawnIntervalMaxTime: 1.5
   EnemyGameObject: {fileID: 6974055256107859485, guid: bdfa9e12302b7d44596e3bf87d3d6d6f, type: 3}

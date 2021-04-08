@@ -18,6 +18,27 @@ public class DestroyZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Destroy(other.gameObject);
+        if( other.gameObject.name.Contains("Bullet"))
+        {
+            other.gameObject.SetActive(false);
+
+            WeaponBaseComponent player_weapon = GameObject.Find("Player").GetComponent<WeaponBaseComponent>();
+
+            player_weapon.BulletObjectPool.Add(other.gameObject);
+
+        }
+        else if( other.gameObject.name.Contains("Enemy"))
+        {
+            other.gameObject.SetActive(false);
+
+            GameObject go_enemy_manager = GameObject.Find("EnemyManager");
+            var enemy_manager = go_enemy_manager.GetComponent<EnemyManager>();
+
+            enemy_manager.EnemyObjectPool.Add(other.gameObject);
+        }
+        else
+        {
+            Destroy(other.gameObject);
+        }
     }
 }

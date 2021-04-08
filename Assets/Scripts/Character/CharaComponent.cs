@@ -16,7 +16,7 @@ public class CharaComponent : MonoBehaviour
 
     protected bool IsAttackable()
     {
-        return _Weapon != null && _Weapon.IsExpiredCoolTime();
+        return _Weapon != null && _Weapon.IsAttackable();
     }
 
     public void DoAttack()

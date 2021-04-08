@@ -12,6 +12,13 @@ public class BaseController : MonoBehaviour
         {
             Chara = GetComponent<CharaComponent>();
         }
+
+
+#if UNITY_ANDROID
+        GameObject.Find("Joystick canvas XYBZ").SetActive(true);
+#elif UNITY_EDITOR || UNITY_STANDALONE
+        GameObject.Find("Joystick canvas XYBZ").SetActive(false);
+#endif
     }
 
     // Update is called once per frame
